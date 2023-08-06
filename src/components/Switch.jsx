@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./switch.css"; // You can create a separate CSS file for styling
 
-const Switch = ({ checked, state, stateFun }) => {
+const Switch = ({ state, stateFun, onSave }) => {
   //   const [state, stateFun] = useState(checked || false);
-
+  // console.log("toggle set");
   const handleToggle = () => {
+    onSave(!state);
     stateFun(!state);
   };
 
