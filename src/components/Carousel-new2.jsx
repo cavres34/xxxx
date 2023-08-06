@@ -1,19 +1,32 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { DataContext } from "../context/DataContext";
 import "./style.scss";
-export default function Carousel({ images, name }) {
-  let [selected, setSelected] = useState(0);
-  let [slide, setSlide] = useState(true);
+
+export default function Carousel({ images: imagesX, name, onSwipe }) {
   let [pos, setPos] = useState(0);
+  const { slide, lastImg, reverseOrder } = useContext(DataContext);
   let limit = 50;
 
+  let [images, setImages] = useState(
+    reverseOrder ? [...imagesX].reverse() : imagesX
+  );
+
+  let [selected, setSelected] = useState(lastImg ? images.length - 1 : 0);
+
   const start = useRef(null);
+  const startY = useRef(null);
+
+  if (!images || images.length == 0) return null;
   const handleTS = (e) => {
     console.log("start");
     start.current = e.targetTouches[0].clientX;
+    startY.current = e.targetTouches[0].clientY;
   };
   const handleTM = (e) => {
-    // if (images.length == 1) return;
+    if (images.length == 1) return;
     const deltaX = e.targetTouches[0].clientX - start.current;
+    const deltaY = e.targetTouches[0].clientY - startY.current;
+    if (Math.abs(deltaY) > 50) return;
     console.log("move");
     if (selected == 0 && deltaX > 0) return;
     else if (selected == images.length - 1 && deltaX < 0) return;
@@ -35,13 +48,15 @@ export default function Carousel({ images, name }) {
     setSelected(index);
   };
   let calc = `calc(${pos}px + -${selected}00%)`;
+
   return (
-    <div className="carousel">
+    <div className="carousel" onTouchStart={onSwipe}>
       <div className="name">{name}</div>
 
       <div className="images-container">
         {images.map((image, index) => {
           return (
+            // <div key={index} className="sample">
             <img
               key={index}
               src={image}
@@ -54,7 +69,9 @@ export default function Carousel({ images, name }) {
               onTouchStart={handleTS}
               onTouchMove={handleTM}
               onTouchEnd={handleTE}
+              loading="lazy"
             />
+            // </div>
           );
         })}
       </div>

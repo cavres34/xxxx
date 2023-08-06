@@ -10,7 +10,7 @@ export default function Home() {
       <div className="sections">
         <button onClick={() => navigate("/")}>Home</button>
 
-        <button onClick={() => navigate("/admin")}>Admin</button>
+        {/* <button onClick={() => navigate("/admin")}>Admin</button> */}
         <button onClick={() => navigate("/settings")}>Settings</button>
       </div>
     </div>

@@ -7,6 +7,10 @@ export default function DataProvider({ children }) {
   const [timeOut, setTimeOut] = useState(false);
   const [tempLogin, setTempLogin] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
+  const [lastImg, setLastImg] = useState(false);
+  let [slide, setSlide] = useState(true);
+  let [reverseOrder, setReverseOrder] = useState(false);
+
   const navigate = useNavigate();
   useEffect(() => {
     axios
@@ -75,6 +79,12 @@ export default function DataProvider({ children }) {
         setTempLogin,
         handlePass,
         handleTempPass,
+        slide,
+        lastImg,
+        setLastImg,
+        setSlide,
+        reverseOrder,
+        setReverseOrder,
       }}
     >
       {children}

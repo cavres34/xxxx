@@ -22,12 +22,25 @@ body {
 
   img {
     width: 100%;
+    // min-width: 410px;
     padding: 0 6px;
     height: auto;
     border-radius: 18px;
   }
+
+  .images-container {
+    display: flex;
+    // position: relative; /* Add this */
+    align-items: center;
+    // justify-content: center;
+    // background-color: rgb(32, 32, 32);
+    // border: 1px solid gray;
+    border-radius: 15px;
+    // overflow-x: scroll;
+    // min-width: 100%;
+  }
   .img-box {
-    width: 100%;
+    width: 100vw;
     background-color: red;
     // justify-content: center;
     // display: flex;
@@ -121,15 +134,6 @@ form {
   }
 }
 
-.images-container {
-  display: flex;
-  align-items: center;
-  // background-color: rgb(32, 32, 32);
-  // border: 1px solid gray;
-  border-radius: 15px;
-  // overflow-x: scroll;
-}
-
 @media (min-width: 700px) {
   .images-container {
     gap: 8px;
@@ -140,7 +144,7 @@ form {
     gap: 20px;
 
     img {
-      width: 480px;
+      // width: 480px;
     }
   }
 }
@@ -163,8 +167,6 @@ form {
   }
 }
 
-.search-bar {
-}
 .mini-search-bar {
   margin-left: 50px;
 }
@@ -179,4 +181,15 @@ form {
 }
 .home {
   margin-top: 40px;
+}
+.search-bar {
+  // position: f;
+  width: calc(100% - 40px);
+  top: -12px;
+  // top: 0;
+  z-index: 2;
+}
+
+.section {
+  // background-color: rgb(216, 103, 103);
 }
