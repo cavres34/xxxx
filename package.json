@@ -19,7 +19,8 @@
     "react-slick": "^0.29.0",
     "sass": "^1.63.6",
     "slick-carousel": "^1.8.1",
-    "vanilla-lazyload": "^17.8.4"
+    "vanilla-lazyload": "^17.8.4",
+    "vite-plugin-pwa": "^0.16.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
