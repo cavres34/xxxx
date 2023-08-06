@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="home">
       <div className="sections">
-        <button onClick={() => navigate("/")}>Home</button>
+        <button onClick={() => navigate("/home")}>Home</button>
 
         {/* <button onClick={() => navigate("/admin")}>Admin</button> */}
         <button onClick={() => navigate("/settings")}>Settings</button>

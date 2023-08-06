@@ -16,12 +16,12 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<AiRemover />} />
+        <Route path="/home" element={<AiRemover />} />
         <Route path="/section" element={<Section />} />
         <Route path="/login" element={<Unlock />} />
         <Route path="/sudo" element={<Sudo />} />
         {/* <Route path="/admin" element={<Admin />} /> */}
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </>
