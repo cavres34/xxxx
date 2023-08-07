@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import "./style.scss";
+// import "./style.scss";
 export default function Carousel({ images, name }) {
   let [selected, setSelected] = useState(0);
   let [pos, setPos] = useState(0);

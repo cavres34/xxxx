@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState, useRef } from "react";
-import Carousel from "./Carousel-new2";
+import Carousel from "../../src/components/Carousel-new2";
 import { useLocation } from "react-router-dom";
 
 export default function AiRemover() {

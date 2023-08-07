@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { DataContext } from "../context/DataContext";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import "./style.scss";
-
+import temp from "../../images/ananya-pandey.jpg";
 export default function Carousel({ images: imagesX, name, onSwipe }) {
   let [pos, setPos] = useState(0);
+  let [isSaved, setIsSaved] = useState(false);
   const { slide, lastImg, reverseOrder } = useContext(DataContext);
   let limit = 50;
 
@@ -18,7 +20,7 @@ export default function Carousel({ images: imagesX, name, onSwipe }) {
 
   if (!images || images.length == 0) return null;
   const handleTS = (e) => {
-    console.log("start");
+    // console.log("start");
     start.current = e.targetTouches[0].clientX;
     startY.current = e.targetTouches[0].clientY;
   };
@@ -26,14 +28,14 @@ export default function Carousel({ images: imagesX, name, onSwipe }) {
     if (images.length == 1) return;
     const deltaX = e.targetTouches[0].clientX - start.current;
     const deltaY = e.targetTouches[0].clientY - startY.current;
-    if (Math.abs(deltaY) > 50) return;
-    console.log("move");
+    if (Math.abs(deltaY) > 50 && Math.abs(deltaY) > Math.abs(deltaX)) return;
+    // console.log("move");
     if (selected == 0 && deltaX > 0) return;
     else if (selected == images.length - 1 && deltaX < 0) return;
     setPos(deltaX);
   };
   const handleTE = () => {
-    console.log("end");
+    // console.log("end");
     if (Math.abs(pos) >= limit) {
       setSelected((prv) => {
         if (pos < limit && prv + 1 != images.length) return prv + 1;
@@ -51,44 +53,69 @@ export default function Carousel({ images: imagesX, name, onSwipe }) {
 
   return (
     <div className="carousel" onTouchStart={onSwipe}>
-      <div className="name">{name}</div>
+      <div className="sep"></div>
 
       <div className="images-container">
         {images.map((image, index) => {
           return (
             // <div key={index} className="sample">
-            <img
-              key={index}
-              src={image}
-              alt="man"
-              style={{
-                transform: slide
-                  ? `translateX(${pos != 0 ? calc : -1 * selected + "00%"})`
-                  : `translateX(-${selected}00%)`,
-              }}
-              onTouchStart={handleTS}
-              onTouchMove={handleTM}
-              onTouchEnd={handleTE}
-              loading="lazy"
-            />
+            (
+              <img
+                key={index}
+                src={image}
+                alt="man"
+                style={{
+                  transform: slide
+                    ? `translateX(${pos != 0 ? calc : -1 * selected + "00%"})`
+                    : `translateX(-${selected}00%)`,
+                }}
+                onTouchStart={handleTS}
+                onTouchMove={handleTM}
+                onTouchEnd={handleTE}
+                loading="lazy"
+              />
+            ) || (
+              <img
+                src={temp}
+                style={{
+                  transform: slide
+                    ? `translateX(${pos != 0 ? calc : -1 * selected + "00%"})`
+                    : `translateX(-${selected}00%)`,
+                }}
+                onTouchStart={handleTS}
+                onTouchMove={handleTM}
+                onTouchEnd={handleTE}
+              />
+            )
             // </div>
           );
         })}
+        {images.length > 1 && (
+          <div className="dots">
+            {images.map((_, index) => {
+              return (
+                <Dot
+                  key={index}
+                  selected={selected == index}
+                  onClick={onDotClick}
+                  index={index}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
-      {images.length > 1 && (
-        <div className="dots">
-          {images.map((_, index) => {
-            return (
-              <Dot
-                key={index}
-                selected={selected == index}
-                onClick={onDotClick}
-                index={index}
-              />
-            );
-          })}
-        </div>
-      )}
+      <div className="top">
+        <div className="name">{name}</div>
+        {isSaved ? (
+          <FaBookmark className="bookmark" onClick={() => setIsSaved(false)} />
+        ) : (
+          <FaRegBookmark
+            className="bookmark"
+            onClick={() => setIsSaved(true)}
+          />
+        )}
+      </div>
     </div>
   );
 }

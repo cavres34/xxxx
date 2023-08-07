@@ -1,13 +1,18 @@
 import { useEffect, useContext, useState, useRef } from "react";
-import Carousel from "./Carousel-new2";
-import { useLocation } from "react-router-dom";
+import Carousel from "../../src/components/Carousel-new2";
+import { useLocation, useNavigate } from "react-router-dom";
+import { DataContext } from "../../src/context/DataContext";
 
 export default function AiRemover() {
-  let data = useLocation().state?.data;
+  let { data } = useLocation().state;
+  const { shuffleSearchResults, shuffleSection } = useContext(DataContext);
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [loadedCarousels, setLoadedCarousels] = useState(4); // Number of carousels to initially load
   const [totalCarousels, setTotalCarousels] = useState(data.length);
-  let [filteredData, setFilterData] = useState(data);
+  let [filteredData, setFilterData] = useState(
+    shuffleSection ? shuffleArray(data) : data
+  );
   const scrollPos = useRef(null);
   const handleCarouselSwipe = (currentIndex) => {
     if (
@@ -67,9 +72,9 @@ export default function AiRemover() {
           ?.includes(query.toLowerCase())
       );
 
-      setFilterData(fdata);
+      setFilterData(shuffleSearchResults ? shuffleArray(fdata) : fdata);
     }
-    wait(0.1);
+    if (query != "") wait(0.1);
   }, [query]);
 
   return (
@@ -86,6 +91,21 @@ export default function AiRemover() {
         <input type="text" placeholder="search" name="query" />
       </form>
 
+      <button
+        onClick={() => {
+          setFilterData((prvfilterdata) => shuffleArray(prvfilterdata));
+        }}
+      >
+        Random
+      </button>
+      <button
+        onClick={() => {
+          navigate(`/search/${query}`);
+        }}
+      >
+        search
+      </button>
+
       {filteredData
         .slice(0, loadedCarousels) // Get Only 4
         .map((item, index) => (
@@ -100,4 +120,13 @@ export default function AiRemover() {
         ))}
     </div>
   );
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  // setLoadedCarousels(4);
+  return array;
 }

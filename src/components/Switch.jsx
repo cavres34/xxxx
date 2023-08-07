@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./switch.css"; // You can create a separate CSS file for styling
-
-const Switch = ({ state, stateFun, onSave }) => {
+import { DataContext } from "../context/DataContext";
+const Switch = ({ state, stateFun, saveAs }) => {
   //   const [state, stateFun] = useState(checked || false);
   // console.log("toggle set");
+  let { toggles } = useContext(DataContext);
   const handleToggle = () => {
-    onSave(!state);
+    toggles[saveAs] = !state;
+    localStorage.setItem("toggles", JSON.stringify(toggles));
     stateFun(!state);
   };
 
