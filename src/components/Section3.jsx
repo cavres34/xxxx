@@ -24,7 +24,7 @@ export default function AiRemover() {
       break;
     }
     case "-1": {
-      sectionData = data.flatMap((d) => d.data);
+      sectionData = data.filter((d) => d.type != "gifs").flatMap((d) => d.data);
       howToLoadData = {
         initial: 5,
         load: 4,

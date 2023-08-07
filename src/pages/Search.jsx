@@ -17,20 +17,29 @@ export default function Search() {
   const { loadedCarousels, setLoadedCarousels, handleCarouselSwipe, setTotal } =
     useCarousel({ total: filteredData.length });
 
+  let sectionData = [];
+  // selected == -1 ? data.flatMap((d) => d.data) : data[selected].data;
+  switch (selected) {
+    case "gifs": {
+      sectionData = data[data.length - 1].data;
+      break;
+    }
+    case "-1": {
+      sectionData = data.filter((d) => d.type != "gifs").flatMap((d) => d.data);
+      break;
+    }
+    default:
+      sectionData = data[selected]?.data;
+  }
+
   useEffect(() => {
-    console.log(selected);
-    console.log(data);
     async function wait(time) {
       setFilterData([]);
       await new Promise((resolve, reject) => {
         setTimeout(resolve, time);
       });
 
-      let fdata = (
-        selected == -1
-          ? data.flatMap((data) => data.data) // For Random
-          : data[+selected].data
-      ).filter((item) =>
+      let fdata = sectionData.filter((item) =>
         item?.title
           ?.replace("-", " ")
           ?.replace("?", "")
