@@ -65,8 +65,8 @@ export default function Carousel({
   const removeBookMark = () => {
     setIsSaved(false);
     saved.splice(saved.indexOf(id), 1);
+    setSaved([...saved]);
     if (type == "saved") removeCarouselFromSaved(id);
-    setSaved([saved]);
   };
   let calc = `calc(${pos}px + -${selected}00%)`;
 
