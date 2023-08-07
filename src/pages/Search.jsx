@@ -99,6 +99,7 @@ export default function Search() {
               key={index}
               images={item?.images}
               name={item?.title}
+              id={item.id}
               onSwipe={() => handleCarouselSwipe(index)}
             />
           );

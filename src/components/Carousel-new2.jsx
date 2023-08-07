@@ -1,12 +1,21 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { DataContext } from "../context/DataContext";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
+import { BsShareFill } from "react-icons/bs";
 import "./style.scss";
-import temp from "../../images/ananya-pandey.jpg";
-export default function Carousel({ images: imagesX, name, onSwipe }) {
+export default function Carousel({
+  images: imagesX,
+  name,
+  onSwipe,
+  onShare,
+  id,
+  type,
+  removeCarouselFromSaved,
+}) {
   let [pos, setPos] = useState(0);
-  let [isSaved, setIsSaved] = useState(false);
-  const { slide, lastImg, reverseOrder } = useContext(DataContext);
+  const { slide, lastImg, reverseOrder, saved, setSaved } =
+    useContext(DataContext);
+  let [isSaved, setIsSaved] = useState(saved.includes(id));
   let limit = 50;
 
   let [images, setImages] = useState(
@@ -49,44 +58,39 @@ export default function Carousel({ images: imagesX, name, onSwipe }) {
   const onDotClick = (index) => {
     setSelected(index);
   };
+  const addBookMark = () => {
+    setIsSaved(true);
+    setSaved((prv) => [...prv, id]);
+  };
+  const removeBookMark = () => {
+    setIsSaved(false);
+    saved.splice(saved.indexOf(id), 1);
+    if (type == "saved") removeCarouselFromSaved(id);
+    setSaved([saved]);
+  };
   let calc = `calc(${pos}px + -${selected}00%)`;
 
   return (
     <div className="carousel" onTouchStart={onSwipe}>
       <div className="sep"></div>
-
       <div className="images-container">
         {images.map((image, index) => {
           return (
             // <div key={index} className="sample">
-            (
-              <img
-                key={index}
-                src={image}
-                alt="man"
-                style={{
-                  transform: slide
-                    ? `translateX(${pos != 0 ? calc : -1 * selected + "00%"})`
-                    : `translateX(-${selected}00%)`,
-                }}
-                onTouchStart={handleTS}
-                onTouchMove={handleTM}
-                onTouchEnd={handleTE}
-                loading="lazy"
-              />
-            ) || (
-              <img
-                src={temp}
-                style={{
-                  transform: slide
-                    ? `translateX(${pos != 0 ? calc : -1 * selected + "00%"})`
-                    : `translateX(-${selected}00%)`,
-                }}
-                onTouchStart={handleTS}
-                onTouchMove={handleTM}
-                onTouchEnd={handleTE}
-              />
-            )
+            <img
+              key={index}
+              src={image}
+              alt="man"
+              style={{
+                transform: slide
+                  ? `translateX(${pos != 0 ? calc : -1 * selected + "00%"})`
+                  : `translateX(-${selected}00%)`,
+              }}
+              onTouchStart={handleTS}
+              onTouchMove={handleTM}
+              onTouchEnd={handleTE}
+              loading="lazy"
+            />
             // </div>
           );
         })}
@@ -107,14 +111,17 @@ export default function Carousel({ images: imagesX, name, onSwipe }) {
       </div>
       <div className="top">
         <div className="name">{name}</div>
-        {isSaved ? (
-          <FaBookmark className="bookmark" onClick={() => setIsSaved(false)} />
-        ) : (
-          <FaRegBookmark
-            className="bookmark"
-            onClick={() => setIsSaved(true)}
+        <div className="icons">
+          <BsShareFill
+            className="share-icon"
+            onClick={() => onShare({ id, name })}
           />
-        )}
+          {isSaved ? (
+            <FaBookmark className="bookmark" onClick={removeBookMark} />
+          ) : (
+            <FaRegBookmark className="bookmark" onClick={addBookMark} />
+          )}
+        </div>
       </div>
     </div>
   );

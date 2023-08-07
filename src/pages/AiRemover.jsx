@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 
 export default function AiRemover() {
-  const { data } = useContext(DataContext);
+  const { data, saved } = useContext(DataContext);
   const navigate = useNavigate();
 
   return (
@@ -24,6 +24,7 @@ export default function AiRemover() {
 
       <div className="sections">
         <button onClick={() => navigate(`/section/-1`)}>Random</button>
+        <button onClick={() => navigate(`/section/saved`)}>Saved</button>
 
         {data.map((d, index) => {
           if (d.data?.type != "gifs")

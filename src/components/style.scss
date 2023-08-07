@@ -235,15 +235,25 @@ form {
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
-    width: 350px;
+    width: 200px;
     text-overflow: ellipsis;
   }
-}
-.bookmark {
-  color: white;
-  // padding: 20px;
-  margin-left: 20px;
-  font-size: 25px;
+  .icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    .bookmark {
+      color: white;
+      // padding: 20px;
+      // margin-left: 20px;
+      font-size: 22px;
+    }
+    .share-icon {
+      color: white;
+
+      font-size: 18px;
+    }
+  }
 }
 
 // .sep {
@@ -253,3 +263,50 @@ form {
 //   // border-top: 1px solid rgb(178, 178, 178);
 //   // border-bottom: 1px solid rgb(178, 178, 178);
 // }
+
+.share {
+  background-color: rgb(29, 29, 29);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 20px 10px;
+  z-index: 99;
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+
+    .icon {
+      color: white;
+      font-size: 22px;
+    }
+  }
+
+  .items {
+    display: flex;
+    gap: 10px;
+
+    div {
+      font-size: 14px;
+    }
+  }
+}
+
+#overlay {
+  // width: 100vw;
+  // background-color: rgba(212, 0, 0, 0.178);
+  // z-index: 2;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  // height: 100vh;
+}
+.hidden {
+  display: none;
+}

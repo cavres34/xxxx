@@ -3,31 +3,31 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 let DataContext = createContext();
 
-import data1 from "../../data.json";
-import data2 from "../../new.json";
-import data3 from "../../new3.json";
-import data4 from "../../new4.json";
-import data5 from "../../new5.json";
-import data6 from "../../new6.json";
-import data7 from "../../new7.json";
-import data8 from "../../new8.json";
-import data9 from "../../new9.json";
-import data10 from "../../new10.json";
-import data11 from "../../new11.json";
-import data12 from "../../new12.json";
-import data13 from "../../new13.json";
-import data14 from "../../new14.json";
-import data15 from "../../new15.json";
-import data16 from "../../new16.json";
-import data17 from "../../new17.json";
-import data18 from "../../new18.json";
-import data19 from "../../new19.json";
-import data20 from "../../new20.json";
-import data21 from "../../new21.json";
-import data22 from "../../new22.json";
-import data23 from "../../new23.json";
-import data24 from "../../new24.json";
-import gifs from "../../gifs.json";
+import data1 from "../../data/data1.json";
+import data2 from "../../data/data2.json";
+import data3 from "../../data/data3.json";
+import data4 from "../../data/data4.json";
+import data5 from "../../data/data5.json";
+import data6 from "../../data/data6.json";
+import data7 from "../../data/data7.json";
+import data8 from "../../data/data8.json";
+import data9 from "../../data/data9.json";
+import data10 from "../../data/data10.json";
+import data11 from "../../data/data11.json";
+import data12 from "../../data/data12.json";
+import data13 from "../../data/data13.json";
+import data14 from "../../data/data14.json";
+import data15 from "../../data/data15.json";
+import data16 from "../../data/data16.json";
+import data17 from "../../data/data17.json";
+import data18 from "../../data/data18.json";
+import data19 from "../../data/data19.json";
+import data20 from "../../data/data20.json";
+import data21 from "../../data/data21.json";
+import data22 from "../../data/data22.json";
+import data23 from "../../data/data23.json";
+import data24 from "../../data/data24.json";
+import gifs from "../../data/data25.json";
 
 const dataX = [
   { data: data1 },
@@ -64,7 +64,9 @@ export default function DataProvider({ children }) {
   const [tempLogin, setTempLogin] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
   const [data, setData] = useState(dataX);
-  const [saved, setSaved] = useState(dataX);
+  const [saved, setSaved] = useState(
+    JSON.parse(localStorage.getItem("saved")) || []
+  );
   // let [selectedData, setSelectedData] = useState()
   // localStorage.clear();
   // Toggle States
@@ -86,12 +88,9 @@ export default function DataProvider({ children }) {
     toggles?.shuffleResults !== undefined ? toggles.shuffleResults : false
   );
 
-  function addSave(item) {
-    setSaved((prv) => [...saved, item]);
-  }
-  function removeSave(item) {
-    saved.slice();
-  }
+  useEffect(() => {
+    localStorage.setItem("saved", JSON.stringify(saved));
+  }, [saved]);
 
   const navigate = useNavigate();
   // useEffect(() => {
@@ -201,6 +200,8 @@ export default function DataProvider({ children }) {
         setShuffleSection,
         data,
         setData,
+        saved,
+        setSaved,
         toggles,
       }}
     >

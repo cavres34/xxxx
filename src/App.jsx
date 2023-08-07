@@ -13,6 +13,8 @@ import Sudo from "./pages/Sudo";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Search from "./pages/Search";
+import Share from "./components/Share";
+import Shared from "./pages/Shared";
 function App() {
   return (
     <>
@@ -25,6 +27,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/search/:selected/:query" element={<Search />} />
+        <Route path="/shared/:id" element={<Shared />} />
+        <Route path="/share" element={<Share />} />
       </Routes>
     </>
   );

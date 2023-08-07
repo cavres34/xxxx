@@ -1,6 +1,8 @@
-import { useEffect, useContext, useState, useRef } from "react";
+import { useEffect, useContext, useState, useRef } from "react"; // Removed CreatePortal import
+import { createPortal } from "react-dom"; // Added import for createPortal
 import Carousel from "../../src/components/Carousel-new2";
 import { useLocation } from "react-router-dom";
+import Share from "../components/Share";
 
 export default function AiRemover() {
   let data = useLocation().state?.data;
@@ -19,8 +21,9 @@ export default function AiRemover() {
       >
         <input type="text" placeholder="search" name="query" />
       </form>
-
-      <button onClick={() => setNoName((prv) => !prv)}>No Name {noName}</button>
+      <button onClick={() => setNoName((prev) => !prev)}>
+        No Name {noName}
+      </button>
       {noName
         ? data.map((item, index) => {
             if (!item?.title?.trim())
@@ -50,6 +53,7 @@ export default function AiRemover() {
                 </div>
               );
           })}
+      {/* {createPortal(, document.getElementById("root"))}{" "} */}
     </div>
   );
 }
