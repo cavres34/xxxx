@@ -6,6 +6,7 @@ import useCarousel from "../../hooks/useCarousel";
 export default function AiRemover() {
   // let { data } = useLocation().state;
   const { shuffleSection, data } = useContext(DataContext);
+  const [finalData, setFinalData] = useState([]);
   const navigate = useNavigate();
   const { selected } = useParams();
   let sectionData = [];
@@ -43,6 +44,14 @@ export default function AiRemover() {
         total: sectionData.length,
       };
   }
+  useEffect(() => {
+    async function wait(time) {
+      setFinalData([]);
+      await new Promise((res, rej) => setTimeout(res, time));
+      setFinalData(shuffleSection ? shuffleArray(sectionData) : sectionData);
+    }
+    wait(0.1);
+  }, []);
 
   const { loadedCarousels, setLoadedCarousels, handleCarouselSwipe } =
     useCarousel(howToLoadData);
@@ -62,18 +71,16 @@ export default function AiRemover() {
       </form>
 
       <div className="section-carousels">
-        {(shuffleSection ? shuffleArray(sectionData) : sectionData)
-          .slice(0, loadedCarousels)
-          .map((item, index) => (
-            <div key={index}>
-              <Carousel
-                key={index}
-                images={item?.images}
-                name={item?.title?.replace("-", " ").replace("?", "")}
-                onSwipe={() => handleCarouselSwipe(index)}
-              />
-            </div>
-          ))}
+        {finalData.slice(0, loadedCarousels).map((item, index) => (
+          <div key={index}>
+            <Carousel
+              key={index}
+              images={item?.images}
+              name={item?.title?.replace("-", " ").replace("?", "")}
+              onSwipe={() => handleCarouselSwipe(index)}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
